@@ -129,7 +129,7 @@ def launch(day):
         print("\tChallenge 2:", d25c2())
 
 def get_data_from_file(path):
-    f = open(path, 'r')
+    f = open("inputs/" + path, 'r')
     s = f.read()
     f.close()
     return s
