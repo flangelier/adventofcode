@@ -246,10 +246,41 @@ def d4c2():
         index += 1
 
 def d5c1():
-    return ''
+    list_name = get_data_from_file("day5")
+    count = 0
+    import re
+    for name in list_name.split('\n'):
+        if "ab" in name or "cd" in name or "pq" in name or "xy" in name \
+                or len(re.findall('[aeiuo]', name)) < 3:
+            continue
+
+        for index in range(0, len(name) - 1):
+            if name[index] == name[index + 1]:
+                count += 1
+                break
+    return count
 
 def d5c2():
-    return ''
+    list_name = get_data_from_file("day5")
+    count = 0
+    for name in list_name.split('\n'):
+        pass1 = False
+        pass2 = False
+        for index in range(0, len(name) - 1):
+            if not pass1 and index + 2 < len(name):
+                for index2 in range(index + 2, len(name) - 1):
+                    if name[index] == name[index2] and \
+                                    name[index + 1] == name[index2 + 1]:
+                        pass1 = True
+                        break
+
+            if (not pass2) and index + 2 < len(name) and name[index] == name[index + 2]:
+                pass2 = True
+
+            if pass1 and pass2:
+                count += 1
+                break
+    return count
 
 def d6c1():
     return ''
