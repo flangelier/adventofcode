@@ -2,6 +2,8 @@ __author__ = 'flangelier'
 
 day = ''
 
+import re
+
 def launch(day):
     if day in ('', '1'):
         print("Day 1")
@@ -248,7 +250,6 @@ def d4c2():
 def d5c1():
     list_name = get_data_from_file("day5")
     count = 0
-    import re
     for name in list_name.split('\n'):
         if "ab" in name or "cd" in name or "pq" in name or "xy" in name \
                 or len(re.findall('[aeiuo]', name)) < 3:
@@ -283,10 +284,55 @@ def d5c2():
     return count
 
 def d6c1():
-    return ''
+    commands = get_data_from_file('day6')
+    ligths = 0
+    prog = re.compile("^([^\d]*)([0-9]{1,3}),([0-9]{1,3})\sthrough\s([0-9]{1,3}),([0-9]{1,3})$")
+    matrix = [[0]*1000 for _ in range(1000)]
+
+    for full_cmd in commands.split('\n'):
+        _, cmd, sx1, sy1, sx2, sy2, _ = prog.split(full_cmd)
+        x1 = int(sx1)
+        y1 = int(sy1)
+        x2 = int(sx2)
+        y2 = int(sy2)
+        for x in range(x1, x2 + 1):
+            for y in range(y1, y2 + 1):
+                if "toggle" in cmd:
+                    matrix[x][y] = (matrix[x][y] + 1) % 2
+                elif "turn on" in cmd:
+                    matrix[x][y] = 1
+                elif "turn off" in cmd:
+                    matrix[x][y] = 0
+    for x in range(1000):
+            for y in range(1000):
+                if matrix[x][y] == 1:
+                    ligths += 1
+    return ligths
 
 def d6c2():
-    return ''
+    commands = get_data_from_file('day6')
+    brithness = 0
+    prog = re.compile("^([^\d]*)([0-9]{1,3}),([0-9]{1,3})\sthrough\s([0-9]{1,3}),([0-9]{1,3})$")
+    matrix = [[0]*1000 for _ in range(1000)]
+
+    for full_cmd in commands.split('\n'):
+        _, cmd, sx1, sy1, sx2, sy2, _ = prog.split(full_cmd)
+        x1 = int(sx1)
+        y1 = int(sy1)
+        x2 = int(sx2)
+        y2 = int(sy2)
+        for x in range(x1, x2 + 1):
+            for y in range(y1, y2 + 1):
+                if "toggle" in cmd:
+                    matrix[x][y] += 2
+                elif "turn on" in cmd:
+                    matrix[x][y] += 1
+                elif "turn off" in cmd and matrix[x][y] > 0:
+                    matrix[x][y] -= 1
+    for x in range(1000):
+            for y in range(1000):
+                brithness += matrix[x][y]
+    return brithness
 
 def d7c1():
     return ''
